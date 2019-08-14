@@ -16,10 +16,16 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 
+// services ( from the service.index file )
+//import { SettingsService } from './services/service.index';
+
+// Services from the service module
+import { ServiceModule } from './services/service.module';
+
+
+
 // temporal
-//import { FormsModule } from '@angular/forms';
-
-
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -32,6 +38,8 @@ import { RegisterComponent } from './register/register.component';
   imports: [
     BrowserModule,
     PagesModule,
+    FormsModule,
+    ServiceModule,
     AppRoutingModule
   ],
   providers: [],

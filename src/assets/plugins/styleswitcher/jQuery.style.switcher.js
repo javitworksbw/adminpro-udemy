@@ -1,12 +1,16 @@
+
+function store(name, val) {
+  if (typeof (Storage) !== "undefined") {
+    localStorage.setItem(name, val);
+  } else {
+    window.alert('Please use a modern browser to properly view this template!');
+  }
+}
+
+/*
 // Theme color settings
 $(document).ready(function(){
-function store(name, val) {
-    if (typeof (Storage) !== "undefined") {
-      localStorage.setItem(name, val);
-    } else {
-      window.alert('Please use a modern browser to properly view this template!');
-    }
-  }
+
  $("*[data-theme]").click(function(e){
       e.preventDefault();
         var currentStyle = $(this).attr('data-theme');
@@ -26,10 +30,13 @@ function store(name, val) {
       });
 
 });
+*/
+
  function get(name) {
     
   }
 
+/*  
 $(document).ready(function(){
     $("*[data-theme]").click(function(e){
       e.preventDefault();
@@ -49,3 +56,4 @@ $('#themecolors').on('click', 'a', function(){
         $(this).addClass('working')
       });
 });
+*/
