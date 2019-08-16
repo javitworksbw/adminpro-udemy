@@ -8,10 +8,16 @@ import { Graficas1Component } from './graficas1/graficas1.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
+// Guards
+import { LoginGuard } from '../services/service.index';
+
+
+
 // Pages routes
 const pagesRoutes: Routes = [
   { path: ''                  ,
     component: PagesComponent ,
+    canActivate: [ LoginGuard ],
     children: [
       { path: 'dashboard'         , component: DashboardComponent },
       { path: 'progress'          , component: ProgressComponent  },

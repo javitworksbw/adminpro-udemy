@@ -1,0 +1,5 @@
+{
+    "editor.tabCompletion": "on",
+    "emmet.triggerExpansionOnTab": true,
+    "prettier.useTabs": true
+}
