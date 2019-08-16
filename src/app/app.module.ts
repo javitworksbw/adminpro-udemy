@@ -25,7 +25,7 @@ import { ServiceModule } from './services/service.module';
 
 
 // temporal
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -38,6 +38,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     PagesModule,
+    ReactiveFormsModule,
     FormsModule,
     ServiceModule,
     AppRoutingModule
