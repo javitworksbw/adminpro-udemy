@@ -1,0 +1,63 @@
+<div class="row animated fadeIn">
+  
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Profile Page</h4>
+        <h6 class="card-subtitle">Your profile data</h6>
+        <form class="form p-t-20" #f="ngForm" (ngSubmit)="saveForm(f.value)">
+          <div class="form-group">
+            <label for="exampleInputuname">User Name</label>
+            <div class="input-group">
+              <div class="input-group-addon"><i class="ti-user"></i></div>
+              <input type="text" class="form-control" id="nombre" placeholder="Username" 
+                [(ngModel)]="usuario.nombre" 
+                name="nombre" 
+                required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <div class="input-group">
+              <div class="input-group-addon"><i class="ti-email"></i></div>
+              <input type="email" class="form-control" id="email" placeholder="Enter email" 
+                [disabled]="usuario.google" 
+                [(ngModel)]="usuario.email" 
+                name="email" 
+                required>
+            </div>
+          </div>
+          
+          
+          <button type="submit" class="btn btn-block btn-success waves-effect waves-light m-r-10">
+            <i class="fa fa-save"></i>
+            Submit
+          </button>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-5">
+      <div class="card">
+        <div class="card-body" align="center">
+          <h4 class="card-title">User Photo</h4>
+          <h6 class="card-subtitle">Profile Image</h6>
+
+            <img *ngIf="!imageTemp" [src]="usuario.img | image" class="img-fluid img-circle w150" alt="">
+            <img *ngIf="imageTemp" [src]="imageTemp" class="img-fluid img-circle w150" alt="">
+            <br>
+
+            <input (change)="selectImageFile($event.target.files[0])" type="file" name="imagen" id="imagen">
+            <br><br>
+            <button  type="button" class="btn btn-block btn-success waves-effect waves-light m-r-10" 
+              (click)="updatePhoto()" 
+              [disabled]="!imageToUpload">
+                <i class="fa fa-user-circle-o"></i>
+                Update Photo
+              </button>
+        </div>
+      </div>
+  </div>        
+</div>

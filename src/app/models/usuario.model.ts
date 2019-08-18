@@ -14,7 +14,8 @@ export class Usuario {
         public img?: string ,
         public role?: validRoles ,
         public google?: boolean ,
-        public id?: number
+        public id?: string,
+        public _id?: string
     ) { }
 
 }

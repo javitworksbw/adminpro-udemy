@@ -9,6 +9,9 @@ import { URL_SERVICIOS } from '../../config/config';
 import { Usuario } from '../../models/usuario.model';
 
 
+import { UploadFileService } from '../uploadFile/upload-file.service';
+
+
 // Sweet alert
 //import * as _swal from 'sweetalert';
 //import { SweetAlert } from 'sweetalert/typings/core';
@@ -17,6 +20,8 @@ import { Usuario } from '../../models/usuario.model';
 //const swal: SweetAlert = _swal as any;
 
 import swal from 'sweetalert';
+
+
 
 
 
@@ -32,7 +37,8 @@ export class UsuarioService {
 
 
   constructor(public http: HttpClient,
-              public router: Router) {
+              public router: Router,
+              public uploadFileService: UploadFileService) {
     // console.log('Servicio de usuario listo');
 
     // loads initially if there is a token ( means that the user is logged in)
@@ -58,14 +64,8 @@ export class UsuarioService {
              .pipe(
                 map( (resp: any) => {
 
-                  // saves token , user and id in localStorage
-                  localStorage.setItem( 'id'       , resp.id                      );
-                  localStorage.setItem( 'usuario'  , JSON.stringify(resp.usuario) );
-                  localStorage.setItem( 'token'    , resp.token                   );
-
-                  // saves the user and token
-                  this.usuario = resp.usuario ;
-                  this.token   = resp.token ;
+                  // saves the response to localStorage
+                  this.saveToLocalStorage(resp.id , resp.usuario , resp.token );
 
                   return resp;
 
@@ -73,6 +73,22 @@ export class UsuarioService {
              );
 
   }
+
+
+  saveToLocalStorage(id: string , user: Usuario , token: string) {
+
+    // saves token , user and id in localStorage
+    localStorage.setItem( 'id'       , id                           );
+    localStorage.setItem( 'usuario'  , JSON.stringify(user)         );
+    localStorage.setItem( 'token'    , token                        );
+
+    // saves the user and token
+    this.usuario = user  ;
+    this.token   = token ;
+
+
+  }
+
 
 
   // returns if an user is loggedIn
@@ -137,6 +153,67 @@ export class UsuarioService {
 
                       })
                 );
+
+  }
+
+  // updates the user data
+  updateUser( user: Usuario ) {
+
+      // updates the usuario data
+      this.usuario.nombre = user.nombre ;
+      this.usuario.email  = user.email  ;
+
+
+      // javi -- atencion a esto
+      let url = URL_SERVICIOS + '/usuario/' + this.usuario._id;
+      // let url = URL_SERVICIOS + '/usuario/' + localStorage.getItem('id');
+      url +=  '?token=' + this.token;
+
+      // call the backend service
+      return this.http.put<any>(url, user)
+        .pipe( map( (resp: any) => {
+
+          // updates the usuario data
+          this.usuario = resp.usuario;
+
+          // updates localStorage - ( saves the response to localStorage )
+          this.saveToLocalStorage( resp.usuario._id , resp.usuario , this.token );
+
+          // Sweet alert
+          swal('User Updated!', resp.usuario.nombre, 'success');
+          return resp;
+
+        }));
+
+  }
+
+
+  // changes the user image
+  changeImage( file: File , id: string ) {
+
+    // updating usuario images
+    this.uploadFileService.myUploadFile( file , 'usuario', id )
+      .then( (res: any) => {
+
+          // console.log( res );
+
+          // updates the usuario images
+          this.usuario.img = res.usuario.img ;
+
+          // saves it to localStorage with new data
+          this.saveToLocalStorage( id , this.usuario, this.token );
+
+          // Sweet alert
+          swal('Image Updated!', this.usuario.nombre, 'success');
+
+
+      })
+      .catch( (err) => {
+
+          console.log( err );
+
+      });
+
 
   }
 
